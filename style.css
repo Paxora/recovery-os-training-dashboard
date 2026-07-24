@@ -560,6 +560,17 @@ a {
   color: var(--ink);
 }
 
+.capture-button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 12px;
+  border: 1px solid #d9dde5;
+  border-radius: 15px;
+  background: white;
+  color: #555d6b;
+  font-weight: 720;
+}
+
 .scan-button strong {
   font-size: 19px;
 }
