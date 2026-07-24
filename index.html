@@ -9,7 +9,7 @@
     <meta property="og:description" content="训练现场执行、逐组记录与历史回看。" />
     <meta property="og:image" content="./recovery-os-training-dashboard-og.png" />
     <title>Recovery OS · Training Dashboard</title>
-    <link rel="stylesheet" href="./style.css?v=20260725-2" />
+    <link rel="stylesheet" href="./style.css?v=20260725-3" />
   </head>
   <body>
     <main class="auth-shell" id="auth-shell">
@@ -51,110 +51,11 @@
           <span>胸痛、胸闷、头晕或异常气短，立即停止训练。</span>
         </aside>
 
+        <p class="save-status" id="save-status" role="status"></p>
         <div class="sticky-actions">
           <button class="secondary-button" id="reset-training" type="button">重置本次</button>
-          <button class="primary-button" id="finish-training" type="button">结束并记录</button>
+          <button class="primary-button" id="save-session" type="button">结束并保存</button>
         </div>
-      </section>
-
-      <section data-view="record" hidden>
-        <header class="page-header record-header">
-          <div>
-            <button class="back-button" data-open-view="workout" type="button">← 返回训练卡</button>
-            <p class="eyebrow">WORKOUT RECORD</p>
-            <h1>训练记录</h1>
-          </div>
-        </header>
-
-        <section class="scan-card">
-          <input
-            class="visually-hidden"
-            id="watch-image-library"
-            type="file"
-            accept="image/*"
-          />
-          <input
-            class="visually-hidden"
-            id="watch-image-camera"
-            type="file"
-            accept="image/*"
-            capture="environment"
-          />
-          <button class="scan-button" id="select-watch-image" type="button">
-            <span class="camera-icon">◉</span>
-            <strong>选择 Apple Watch 截图</strong>
-            <small>从手机照片图库选择训练总结</small>
-          </button>
-          <button class="capture-button" id="capture-watch-image" type="button">
-            直接拍摄 Apple Watch
-          </button>
-          <span class="local-badge">● 本地识别 · 免费</span>
-          <p class="scan-status" id="scan-status" role="status"></p>
-        </section>
-
-        <section class="record-card">
-          <div class="record-card-title">
-            <div>
-              <p class="eyebrow">APPLE WATCH</p>
-              <h2>识别结果</h2>
-            </div>
-            <img id="scan-preview" alt="待确认的 Apple Watch 记录" hidden />
-          </div>
-          <div class="watch-fields">
-            <label>
-              <span>训练时长</span>
-              <div><input data-watch="duration" placeholder="—" /><small>时:分:秒</small></div>
-            </label>
-            <label>
-              <span>活动热量</span>
-              <div><input data-watch="activeCalories" inputmode="numeric" placeholder="—" /><small>千卡</small></div>
-            </label>
-            <label>
-              <span>总热量</span>
-              <div><input data-watch="totalCalories" inputmode="numeric" placeholder="—" /><small>千卡</small></div>
-            </label>
-            <label>
-              <span>平均心率</span>
-              <div><input data-watch="averageHeartRate" inputmode="numeric" placeholder="—" /><small>次/分</small></div>
-            </label>
-          </div>
-          <p class="confirm-note">识别结果可以修改；确认无误后再保存。</p>
-        </section>
-
-        <section class="record-card">
-          <p class="eyebrow">POST-WORKOUT</p>
-          <h2>现场反馈</h2>
-          <div class="feedback-fields">
-            <label>
-              <span>Energy</span>
-              <select id="energy">
-                <option value="">未记录</option>
-                <option value="1">1 / 5 · 极低</option>
-                <option value="2">2 / 5 · 较低</option>
-                <option value="3">3 / 5 · 一般</option>
-                <option value="4">4 / 5 · 较好</option>
-                <option value="5">5 / 5 · 很好</option>
-              </select>
-            </label>
-            <label>
-              <span>身体反馈</span>
-              <select id="body-feedback">
-                <option value="">未记录</option>
-                <option>无异常</option>
-                <option>轻微酸痛，不影响活动</option>
-                <option>明显酸痛或疲劳</option>
-                <option>出现胸闷、头晕或异常气短</option>
-              </select>
-            </label>
-            <label>
-              <span>备注</span>
-              <textarea id="notes" maxlength="500" rows="4" placeholder="只记录本次训练现场事实。"></textarea>
-            </label>
-          </div>
-        </section>
-
-        <p class="save-status" id="save-status" role="status"></p>
-        <button class="primary-button full" id="save-session" type="button">确认并保存</button>
       </section>
 
       <section data-view="history" hidden>
@@ -176,8 +77,7 @@
       </section>
     </main>
 
-    <script src="./config.js?v=20260725-2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script>
-    <script src="./app.js?v=20260725-2"></script>
+    <script src="./config.js?v=20260725-3"></script>
+    <script src="./app.js?v=20260725-3"></script>
   </body>
 </html>
