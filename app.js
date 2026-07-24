@@ -7,8 +7,8 @@ const LOGIN_KEY = "recovery-os-training-dashboard-github-login";
 
 const FALLBACK_PLAN = {
   schemaVersion: 1,
-  planId: "recovery-os-session-02",
-  sessionLabel: "第 2 次入馆",
+  planId: "local-fallback",
+  sessionLabel: "备用训练计划",
   exercises: [
   {
     id: "warmup",
