@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "planId": "recovery-os-session-02",
+  "sessionLabel": "第 2 次入馆",
+  "updatedAt": "2026-07-25",
+  "exercises": [
+    {
+      "id": "warmup",
+      "order": "01",
+      "name": "跑步机快走",
+      "english": "Treadmill",
+      "prescription": "8–10 分钟",
+      "rest": "—",
+      "cue": "身体微热即可，不需要跑。",
+      "metrics": [
+        { "key": "duration", "label": "实际时长", "unit": "分钟" },
+        { "key": "distance", "label": "实际距离", "unit": "km" }
+      ]
+    },
+    {
+      "id": "row",
+      "order": "02",
+      "name": "坐姿器械划船",
+      "english": "Seated Row",
+      "prescription": "2–3 × 10–12",
+      "rest": "90 秒",
+      "cue": "胸口打开，肘向后拉，不耸肩。",
+      "setCount": 3,
+      "isNew": true,
+      "video": "https://www.bilibili.com/video/BV1m2421L7tw/"
+    },
+    {
+      "id": "shoulder",
+      "order": "03",
+      "name": "坐姿推肩机",
+      "english": "Shoulder Press",
+      "prescription": "2 × 10–12",
+      "rest": "90 秒",
+      "cue": "背贴靠垫，不塌腰，手肘不锁死。",
+      "setCount": 2,
+      "isNew": true,
+      "video": "https://www.bilibili.com/video/BV1r341127uy/"
+    },
+    {
+      "id": "pulldown",
+      "order": "04",
+      "name": "高位下拉",
+      "english": "Lat Pulldown",
+      "prescription": "2 × 10–12",
+      "rest": "90 秒",
+      "cue": "拉到上胸，身体不要大幅后仰。",
+      "setCount": 2
+    },
+    {
+      "id": "chest",
+      "order": "05",
+      "name": "坐姿推胸",
+      "english": "Chest Press",
+      "prescription": "2 × 10–12",
+      "rest": "90 秒",
+      "cue": "肩膀向后下沉，回程保持控制。",
+      "setCount": 2
+    },
+    {
+      "id": "legpress",
+      "order": "06",
+      "name": "腿举",
+      "english": "Leg Press",
+      "prescription": "2 × 10–12",
+      "rest": "90 秒",
+      "cue": "仅在腿部无明显酸痛时做；膝盖与脚尖同向。",
+      "setCount": 2,
+      "optional": true
+    },
+    {
+      "id": "cooldown",
+      "order": "07",
+      "name": "跑步机放松",
+      "english": "Cool-down Walk",
+      "prescription": "8–10 分钟",
+      "rest": "—",
+      "cue": "轻松走路，让呼吸逐渐恢复。",
+      "metrics": [
+        { "key": "duration", "label": "实际时长", "unit": "分钟" },
+        { "key": "distance", "label": "实际距离", "unit": "km" }
+      ]
+    }
+  ]
+}
