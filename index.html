@@ -9,7 +9,7 @@
     <meta property="og:description" content="训练现场执行、逐组记录与历史回看。" />
     <meta property="og:image" content="./recovery-os-training-dashboard-og.png" />
     <title>Recovery OS · Training Dashboard</title>
-    <link rel="stylesheet" href="./style.css?v=20260725-3" />
+    <link rel="stylesheet" href="./style.css?v=20260725-4" />
   </head>
   <body>
     <main class="auth-shell" id="auth-shell">
@@ -17,10 +17,14 @@
         <p class="eyebrow">RECOVERY OS</p>
         <h1 id="auth-title">登录训练 Dashboard</h1>
         <p id="auth-copy">使用你的 GitHub 账号登录。训练记录会按账号隔离并保存到云端历史。</p>
-        <button class="auth-button" id="github-login" type="button">
+        <a
+          class="auth-button"
+          id="github-login"
+          href="https://recovery-os-training-api.pxsky1314.workers.dev/auth/github"
+        >
           <span>使用 GitHub 登录</span>
           <span aria-hidden="true">↗</span>
-        </button>
+        </a>
         <p class="auth-status" id="auth-status" role="status"></p>
       </section>
     </main>
@@ -77,7 +81,7 @@
       </section>
     </main>
 
-    <script src="./config.js?v=20260725-3"></script>
-    <script src="./app.js?v=20260725-3"></script>
+    <script src="./config.js?v=20260725-4"></script>
+    <script src="./app.js?v=20260725-4"></script>
   </body>
 </html>
