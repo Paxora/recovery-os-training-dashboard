@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f6f8" />
+    <title>Recovery OS · Training Dashboard</title>
+    <meta
+      name="description"
+      content="手机优先的 Recovery OS 训练卡、动作视频、训练记录与系统判断。"
+    />
+    <meta property="og:title" content="Recovery OS · Training Dashboard" />
+    <meta
+      property="og:description"
+      content="手机优先的训练卡、动作视频、训练记录与系统判断。"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <nav class="topbar" aria-label="Dashboard navigation">
+          <a class="brand" href="#top">Recovery OS</a>
+          <div class="nav-pills">
+            <a href="#training">训练卡</a>
+            <a href="#record">记录</a>
+            <a href="#judgement">判断</a>
+          </div>
+        </nav>
+
+        <div class="hero-copy" id="top">
+          <p class="eyebrow">TRAINING DASHBOARD · SESSION 02</p>
+          <h1>明早去练。<br />只把动作做稳。</h1>
+          <p class="hero-subtitle">
+            新手器械学习期 · 预计 60–70 分钟 · 所有记录自动保存在当前设备
+          </p>
+        </div>
+
+        <section class="mission-card" aria-label="Today mission">
+          <div class="progress-ring" id="progress-ring">
+            <div>
+              <strong id="progress-percent">0%</strong>
+              <span>已完成</span>
+            </div>
+          </div>
+          <div class="mission-copy">
+            <span class="status-dot">明早 · 第 2 次入馆</span>
+            <h2>熟悉器械，建立动作感觉</h2>
+            <p>每组结束时保留约 3 次余力。不追重量，不做到力竭。</p>
+          </div>
+          <div class="mission-stat">
+            <strong id="progress-count">0 / 7</strong>
+            <span>训练项目</span>
+          </div>
+        </section>
+      </header>
+
+      <div class="content-shell">
+        <section class="section" id="training">
+          <div class="section-heading">
+            <div>
+              <p class="kicker">TODAY'S WORKOUT</p>
+              <h2>今日训练卡</h2>
+            </div>
+            <button class="text-button" type="button" id="reset-training">重置本次</button>
+          </div>
+
+          <div class="exercise-list">
+            <article class="exercise-card" data-exercise="warmup">
+              <button class="check-button" type="button" aria-pressed="false">01</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div>
+                    <div class="badges"></div>
+                    <h3>跑步机快走</h3>
+                    <p class="english">Treadmill</p>
+                  </div>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>8–10 分钟</strong></div>
+                  <div><span>组间休息</span><strong>—</strong></div>
+                </div>
+                <p class="cue">身体微热即可，不需要跑。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="row">
+              <button class="check-button" type="button" aria-pressed="false">02</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div>
+                    <div class="badges"><span class="badge new">新动作</span></div>
+                    <h3>坐姿器械划船</h3>
+                    <p class="english">Seated Row</p>
+                  </div>
+                  <a
+                    class="video-link"
+                    href="https://www.bilibili.com/video/BV1m2421L7tw/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >中文教学视频 ↗</a>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>2–3 × 10–12</strong></div>
+                  <div><span>组间休息</span><strong>90 秒</strong></div>
+                  <label>
+                    <span>本次重量</span>
+                    <span class="weight-input"><input inputmode="decimal" data-weight="row" placeholder="—" />kg</span>
+                  </label>
+                </div>
+                <p class="cue">胸口打开，肘向后拉，不耸肩。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="shoulder">
+              <button class="check-button" type="button" aria-pressed="false">03</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div>
+                    <div class="badges"><span class="badge new">新动作</span></div>
+                    <h3>坐姿推肩机</h3>
+                    <p class="english">Shoulder Press</p>
+                  </div>
+                  <a
+                    class="video-link"
+                    href="https://www.bilibili.com/video/BV1r341127uy/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >中文教学视频 ↗</a>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>2 × 10–12</strong></div>
+                  <div><span>组间休息</span><strong>90 秒</strong></div>
+                  <label>
+                    <span>本次重量</span>
+                    <span class="weight-input"><input inputmode="decimal" data-weight="shoulder" placeholder="—" />kg</span>
+                  </label>
+                </div>
+                <p class="cue">背贴靠垫，不塌腰，手肘不锁死。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="pulldown">
+              <button class="check-button" type="button" aria-pressed="false">04</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div><div class="badges"></div><h3>高位下拉</h3><p class="english">Lat Pulldown</p></div>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>2 × 10–12</strong></div>
+                  <div><span>组间休息</span><strong>90 秒</strong></div>
+                  <label>
+                    <span>本次重量</span>
+                    <span class="weight-input"><input inputmode="decimal" data-weight="pulldown" placeholder="—" />kg</span>
+                  </label>
+                </div>
+                <p class="cue">拉到上胸，身体不要大幅后仰。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="chest">
+              <button class="check-button" type="button" aria-pressed="false">05</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div><div class="badges"></div><h3>坐姿推胸</h3><p class="english">Chest Press</p></div>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>2 × 10–12</strong></div>
+                  <div><span>组间休息</span><strong>90 秒</strong></div>
+                  <label>
+                    <span>本次重量</span>
+                    <span class="weight-input"><input inputmode="decimal" data-weight="chest" placeholder="—" />kg</span>
+                  </label>
+                </div>
+                <p class="cue">肩膀向后下沉，回程保持控制。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="legpress">
+              <button class="check-button" type="button" aria-pressed="false">06</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div>
+                    <div class="badges"><span class="badge optional">视酸痛决定</span></div>
+                    <h3>腿举</h3><p class="english">Leg Press</p>
+                  </div>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>2 × 10–12</strong></div>
+                  <div><span>组间休息</span><strong>90 秒</strong></div>
+                  <label>
+                    <span>本次重量</span>
+                    <span class="weight-input"><input inputmode="decimal" data-weight="legpress" placeholder="—" />kg</span>
+                  </label>
+                </div>
+                <p class="cue">仅在腿部无明显酸痛时做；膝盖与脚尖同向。</p>
+              </div>
+            </article>
+
+            <article class="exercise-card" data-exercise="cooldown">
+              <button class="check-button" type="button" aria-pressed="false">07</button>
+              <div class="exercise-main">
+                <div class="exercise-title-row">
+                  <div><div class="badges"></div><h3>跑步机放松</h3><p class="english">Cool-down Walk</p></div>
+                </div>
+                <div class="exercise-meta">
+                  <div><span>训练量</span><strong>8–10 分钟</strong></div>
+                  <div><span>组间休息</span><strong>—</strong></div>
+                </div>
+                <p class="cue">轻松走路，让呼吸逐渐恢复。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section two-column" id="record">
+          <div>
+            <div class="section-heading compact">
+              <div><p class="kicker">BODY CHECK</p><h2>身体反馈</h2></div>
+            </div>
+            <div class="panel">
+              <label class="field">
+                <span>训练前 Energy（1–5）</span>
+                <select id="energy">
+                  <option>未记录</option>
+                  <option>1 · 极低</option>
+                  <option>2 · 较低</option>
+                  <option>3 · 一般</option>
+                  <option>4 · 较好</option>
+                  <option>5 · 很好</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>当前酸痛</span>
+                <select id="soreness">
+                  <option>未记录</option>
+                  <option>无明显酸痛</option>
+                  <option>轻微酸痛，不影响动作</option>
+                  <option>明显酸痛，需要减量</option>
+                  <option>影响正常活动，跳过力量</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>训练反馈</span>
+                <textarea
+                  id="feedback"
+                  rows="4"
+                  placeholder="例如：肩推座椅不好调；高位下拉背部发力更清楚……"
+                ></textarea>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-heading compact">
+              <div><p class="kicker">APPLE WATCH</p><h2>训练记录</h2></div>
+            </div>
+            <div class="panel watch-panel">
+              <div class="watch-tip">
+                <span>⌚</span>
+                <div>
+                  <strong>选择「功能性力量训练」</strong>
+                  <p>进馆后开始一次，组间休息和换器械时不要暂停。</p>
+                </div>
+              </div>
+              <div class="metric-grid">
+                <label class="metric"><span>训练时长</span><div><input data-watch="duration" inputmode="decimal" placeholder="—" /><small>分钟</small></div></label>
+                <label class="metric"><span>活动热量</span><div><input data-watch="activeCalories" inputmode="decimal" placeholder="—" /><small>千卡</small></div></label>
+                <label class="metric"><span>总热量</span><div><input data-watch="totalCalories" inputmode="decimal" placeholder="—" /><small>千卡</small></div></label>
+                <label class="metric"><span>平均心率</span><div><input data-watch="averageHeartRate" inputmode="decimal" placeholder="—" /><small>次/分</small></div></label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="judgement">
+          <div class="section-heading">
+            <div><p class="kicker">SYSTEM JUDGEMENT</p><h2>系统判断</h2></div>
+          </div>
+          <div class="judgement-grid">
+            <article class="judgement-card primary">
+              <span>本次重点</span>
+              <h3>增加动作库，不增加证明压力。</h3>
+              <p>90 分钟是可用上限，不是必须待满。完成 8–10 个正式组，加上学习、调器械与休息，已经足够。</p>
+            </article>
+            <article class="judgement-card">
+              <span>第一次训练结论</span>
+              <h3>启动成功，强度合适。</h3>
+              <p>已完成推胸、下拉、腿举和跑步机；重量较轻，无胸闷、头晕或异常气短。</p>
+            </article>
+            <article class="judgement-card">
+              <span>下一次如何加量</span>
+              <h3>先记录，再决定。</h3>
+              <p>动作稳定且每组仍能保留约 3 次余力时，下次才小幅增加重量；否则维持。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="safety-card" aria-label="Safety stop conditions">
+          <div class="safety-icon">!</div>
+          <div>
+            <p class="kicker">HARD STOP</p>
+            <h2>出现胸痛、胸闷、头晕或异常气短，立即停止训练。</h2>
+            <p>不要继续测试强度，也不要用“今天才练一点”作为继续的理由。</p>
+          </div>
+        </section>
+
+        <footer>
+          <span>Recovery OS · Training Dashboard</span>
+          <span>固定版式 · 当前设备自动保存</span>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>
