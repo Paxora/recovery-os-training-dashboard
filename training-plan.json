@@ -71,19 +71,6 @@
       "cue": "仅在腿部无明显酸痛时做；膝盖与脚尖同向。",
       "setCount": 2,
       "optional": true
-    },
-    {
-      "id": "cooldown",
-      "order": "07",
-      "name": "跑步机放松",
-      "english": "Cool-down Walk",
-      "prescription": "8–10 分钟",
-      "rest": "—",
-      "cue": "轻松走路，让呼吸逐渐恢复。",
-      "metrics": [
-        { "key": "duration", "label": "实际时长", "unit": "分钟" },
-        { "key": "distance", "label": "实际距离", "unit": "km" }
-      ]
     }
   ]
 }
