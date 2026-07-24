@@ -5,7 +5,11 @@ const LEGACY_DRAFT_KEY = "recovery-os-training-dashboard-v3-draft";
 const SESSION_KEY = "recovery-os-training-dashboard-github-session";
 const LOGIN_KEY = "recovery-os-training-dashboard-github-login";
 
-const exercises = [
+const FALLBACK_PLAN = {
+  schemaVersion: 1,
+  planId: "recovery-os-session-02",
+  sessionLabel: "第 2 次入馆",
+  exercises: [
   {
     id: "warmup",
     order: "01",
@@ -87,7 +91,11 @@ const exercises = [
       { key: "distance", label: "实际距离", unit: "km" },
     ],
   },
-];
+  ],
+};
+
+let trainingPlan = FALLBACK_PLAN;
+let exercises = FALLBACK_PLAN.exercises;
 
 const authShell = document.querySelector("#auth-shell");
 const appShell = document.querySelector("#app-shell");
@@ -103,6 +111,7 @@ const historyList = document.querySelector("#history-list");
 const historyStatus = document.querySelector("#history-status");
 const historyCount = document.querySelector("#history-count");
 const saveStatus = document.querySelector("#save-status");
+const currentSessionLabel = document.querySelector("#current-session-label");
 
 function emptyState() {
   return {
@@ -126,29 +135,88 @@ function emptyState() {
   };
 }
 
+function hydrateDraft(saved) {
+  const next = emptyState();
+  if (!saved || typeof saved !== "object") return next;
+
+  for (const exercise of exercises) {
+    const id = exercise.id;
+    next.completed[id] = Boolean(saved.completed?.[id]);
+
+    if (exercise.setCount) {
+      const savedSets = Array.isArray(saved.sets?.[id]) ? saved.sets[id] : [];
+      next.sets[id] = next.sets[id].map((set, index) => ({
+        weight: String(savedSets[index]?.weight || set.weight),
+        reps: String(savedSets[index]?.reps || set.reps),
+      }));
+    }
+
+    if (exercise.metrics) {
+      for (const metric of exercise.metrics) {
+        next.metrics[id][metric.key] = String(saved.metrics?.[id]?.[metric.key] || "");
+      }
+    }
+  }
+
+  return next;
+}
+
+function readDraft() {
+  const saved = localStorage.getItem(DRAFT_KEY);
+  const legacy = localStorage.getItem(LEGACY_DRAFT_KEY);
+  return saved ? JSON.parse(saved) : legacy ? JSON.parse(legacy) : null;
+}
+
 let state = emptyState();
 let sessions = [];
 let sessionToken = localStorage.getItem(SESSION_KEY) || "";
 let githubLogin = localStorage.getItem(LOGIN_KEY) || "";
 
 try {
-  const saved = localStorage.getItem(DRAFT_KEY);
-  const legacy = localStorage.getItem(LEGACY_DRAFT_KEY);
-  if (saved) {
-    state = { ...state, ...JSON.parse(saved) };
-  } else if (legacy) {
-    const old = JSON.parse(legacy);
-    state = {
-      ...state,
-      completed: old.completed || state.completed,
-      sets: old.sets || state.sets,
-      metrics: old.metrics || state.metrics,
-    };
-    saveDraft();
-  }
+  state = hydrateDraft(readDraft());
+  saveDraft();
   localStorage.removeItem(LEGACY_DRAFT_KEY);
 } catch {
   state = emptyState();
+}
+
+function isValidPlan(plan) {
+  if (!plan || typeof plan !== "object" || !Array.isArray(plan.exercises)) return false;
+  if (!plan.sessionLabel || !plan.exercises.length) return false;
+  const ids = new Set();
+  return plan.exercises.every((exercise) => {
+    if (!exercise || typeof exercise !== "object") return false;
+    if (!exercise.id || !exercise.name || !exercise.order || ids.has(exercise.id)) return false;
+    ids.add(exercise.id);
+    return true;
+  });
+}
+
+async function loadTrainingPlan() {
+  try {
+    const response = await fetch(`./training-plan.json?v=${Date.now()}`, {
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error("训练计划读取失败。");
+    const plan = await response.json();
+    if (!isValidPlan(plan)) throw new Error("训练计划格式无效。");
+
+    trainingPlan = plan;
+    exercises = plan.exercises;
+    state = hydrateDraft(readDraft());
+    saveDraft();
+
+    if (currentSessionLabel) {
+      currentSessionLabel.textContent = `今日训练 · ${trainingPlan.sessionLabel}`;
+    }
+    if (!appShell.hidden) renderExercises();
+    return true;
+  } catch {
+    if (currentSessionLabel) {
+      currentSessionLabel.textContent = `今日训练 · ${trainingPlan.sessionLabel}`;
+    }
+    return false;
+  }
 }
 
 function consumeLoginFragment() {
@@ -408,7 +476,7 @@ async function saveSession() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         sessionDate: localDateString(),
-        sessionLabel: "第 2 次入馆",
+        sessionLabel: trainingPlan.sessionLabel,
         exercises: exercises.map((exercise) => ({
           id: exercise.id,
           name: exercise.name,
@@ -466,6 +534,11 @@ async function initializeAuth() {
   }
 }
 
+async function initialize() {
+  await loadTrainingPlan();
+  await initializeAuth();
+}
+
 document.querySelector("#open-history").addEventListener("click", async () => {
   setView("history");
   await loadHistory();
@@ -489,4 +562,12 @@ document.querySelector("#sign-out").addEventListener("click", () => {
   showAuth("登录训练 Dashboard", "使用你的 GitHub 账号登录。训练记录会按账号隔离并保存到云端历史。");
 });
 
-void initializeAuth();
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") void loadTrainingPlan();
+});
+window.addEventListener("pageshow", () => void loadTrainingPlan());
+window.setInterval(() => {
+  if (document.visibilityState === "visible") void loadTrainingPlan();
+}, 60_000);
+
+void initialize();
