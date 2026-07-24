@@ -1,6 +1,7 @@
 const CONFIG = window.RECOVERY_OS_CONFIG || {};
 const API_BASE = String(CONFIG.apiBase || "").replace(/\/$/, "");
-const DRAFT_KEY = "recovery-os-training-dashboard-v3-draft";
+const DRAFT_KEY = "recovery-os-training-dashboard-v4-draft";
+const LEGACY_DRAFT_KEY = "recovery-os-training-dashboard-v3-draft";
 const SESSION_KEY = "recovery-os-training-dashboard-github-session";
 const LOGIN_KEY = "recovery-os-training-dashboard-github-login";
 
@@ -101,10 +102,6 @@ const progressBar = document.querySelector("#progress-bar");
 const historyList = document.querySelector("#history-list");
 const historyStatus = document.querySelector("#history-status");
 const historyCount = document.querySelector("#history-count");
-const watchImageLibrary = document.querySelector("#watch-image-library");
-const watchImageCamera = document.querySelector("#watch-image-camera");
-const scanStatus = document.querySelector("#scan-status");
-const scanPreview = document.querySelector("#scan-preview");
 const saveStatus = document.querySelector("#save-status");
 
 function emptyState() {
@@ -126,16 +123,6 @@ function emptyState() {
           Object.fromEntries(exercise.metrics.map((metric) => [metric.key, ""])),
         ]),
     ),
-    energy: "",
-    bodyFeedback: "",
-    notes: "",
-    watch: {
-      duration: "",
-      activeCalories: "",
-      totalCalories: "",
-      averageHeartRate: "",
-      source: "manual",
-    },
   };
 }
 
@@ -143,11 +130,23 @@ let state = emptyState();
 let sessions = [];
 let sessionToken = localStorage.getItem(SESSION_KEY) || "";
 let githubLogin = localStorage.getItem(LOGIN_KEY) || "";
-let scanPreviewUrl = "";
 
 try {
   const saved = localStorage.getItem(DRAFT_KEY);
-  if (saved) state = { ...state, ...JSON.parse(saved) };
+  const legacy = localStorage.getItem(LEGACY_DRAFT_KEY);
+  if (saved) {
+    state = { ...state, ...JSON.parse(saved) };
+  } else if (legacy) {
+    const old = JSON.parse(legacy);
+    state = {
+      ...state,
+      completed: old.completed || state.completed,
+      sets: old.sets || state.sets,
+      metrics: old.metrics || state.metrics,
+    };
+    saveDraft();
+  }
+  localStorage.removeItem(LEGACY_DRAFT_KEY);
 } catch {
   state = emptyState();
 }
@@ -190,7 +189,6 @@ function showApp() {
   appShell.hidden = false;
   signedInLabel.textContent = githubLogin ? `已登录 · @${githubLogin}` : "已登录";
   renderExercises();
-  renderRecord();
 }
 
 async function api(path, options = {}) {
@@ -312,15 +310,6 @@ function renderExercises() {
   });
 }
 
-function renderRecord() {
-  document.querySelectorAll("[data-watch]").forEach((input) => {
-    input.value = state.watch[input.dataset.watch] || "";
-  });
-  document.querySelector("#energy").value = state.energy;
-  document.querySelector("#body-feedback").value = state.bodyFeedback;
-  document.querySelector("#notes").value = state.notes;
-}
-
 function displayDate(value) {
   const parts = String(value).split("-");
   return parts.length === 3 ? `${Number(parts[1])}月${Number(parts[2])}日` : value;
@@ -354,10 +343,6 @@ function renderHistory() {
           <div><h2>${displayDate(session.sessionDate)}</h2><span>${escapeAttribute(session.sessionLabel)}</span></div>
           <div class="history-result"><strong>${percentage}% 完成</strong><span>⌄</span></div>
         </button>
-        <div class="history-meta">
-          <span>◷ ${escapeAttribute(session.watchDuration || "时长未记录")}</span>
-          <span>Energy ${session.energy ? `${session.energy} / 5` : "未记录"}</span>
-        </div>
         <div class="history-detail" data-history-detail="${sessionIndex}" hidden>
           ${(session.exercises || [])
             .map((exercise) => {
@@ -371,14 +356,6 @@ function renderHistory() {
               </div>`;
             })
             .join("")}
-          ${
-            session.bodyFeedback || session.notes
-              ? `<div class="history-feedback">
-                  ${session.bodyFeedback ? `<p>${escapeAttribute(session.bodyFeedback)}</p>` : ""}
-                  ${session.notes ? `<p>${escapeAttribute(session.notes)}</p>` : ""}
-                </div>`
-              : ""
-          }
         </div>
       </article>`;
     })
@@ -432,10 +409,6 @@ async function saveSession() {
       body: JSON.stringify({
         sessionDate: localDateString(),
         sessionLabel: "第 2 次入馆",
-        energy: state.energy ? Number(state.energy) : null,
-        bodyFeedback: state.bodyFeedback,
-        notes: state.notes,
-        watch: state.watch,
         exercises: exercises.map((exercise) => ({
           id: exercise.id,
           name: exercise.name,
@@ -459,68 +432,7 @@ async function saveSession() {
     saveStatus.textContent = error instanceof Error ? error.message : "训练记录保存失败。";
   } finally {
     button.disabled = false;
-    button.textContent = "确认并保存";
-  }
-}
-
-function firstMatch(text, patterns) {
-  for (const pattern of patterns) {
-    const match = text.match(pattern);
-    if (match?.[1]) return match[1].replace(/\s/g, "");
-  }
-  return "";
-}
-
-function parseWatchText(text) {
-  const normalized = text.replace(/[，,]/g, " ").replace(/[：﹕]/g, ":").replace(/\s+/g, " ");
-  return {
-    duration: firstMatch(normalized, [
-      /(?:训练时长|总时间|总计时间|时间)\D{0,16}(\d{1,2}:\d{2}(?::\d{2})?)/i,
-      /(\d{1,2}:\d{2}:\d{2})/,
-    ]),
-    activeCalories: firstMatch(normalized, [
-      /(?:活动热量|活动能量|活动卡路里)\D{0,12}(\d{1,4})/i,
-    ]),
-    totalCalories: firstMatch(normalized, [
-      /(?:总热量|总能量|总卡路里)\D{0,12}(\d{1,4})/i,
-    ]),
-    averageHeartRate: firstMatch(normalized, [
-      /(?:平均心率|平均心律)\D{0,12}(\d{2,3})/i,
-    ]),
-  };
-}
-
-async function scanWatch(file) {
-  if (!window.Tesseract) {
-    scanStatus.textContent = "识别组件加载失败，请稍后重试或手动填写。";
-    return;
-  }
-  if (scanPreviewUrl) URL.revokeObjectURL(scanPreviewUrl);
-  scanPreviewUrl = URL.createObjectURL(file);
-  scanPreview.src = scanPreviewUrl;
-  scanPreview.hidden = false;
-  scanStatus.textContent = "正在本地识别图片…";
-  try {
-    const result = await window.Tesseract.recognize(file, "chi_sim+eng", {
-      logger(message) {
-        if (typeof message.progress === "number") {
-          scanStatus.textContent = `正在本地识别图片… ${Math.round(message.progress * 100)}%`;
-        }
-      },
-    });
-    const parsed = parseWatchText(result.data.text);
-    const found = Object.values(parsed).filter(Boolean).length;
-    for (const [key, value] of Object.entries(parsed)) {
-      if (value) state.watch[key] = value;
-    }
-    state.watch.source = "ocr";
-    saveDraft();
-    renderRecord();
-    scanStatus.textContent = found
-      ? `已识别 ${found} 项，请检查后确认。`
-      : "没有可靠识别到数据，请重新拍摄或手动填写。";
-  } catch {
-    scanStatus.textContent = "本地识别未完成，请重新拍摄或手动填写。";
+    button.textContent = "结束并保存";
   }
 }
 
@@ -561,12 +473,8 @@ document.querySelector("#open-history").addEventListener("click", async () => {
   setView("history");
   await loadHistory();
 });
-document.querySelector("#finish-training").addEventListener("click", () => {
-  renderRecord();
-  setView("record");
-});
 document.querySelector("#reset-training").addEventListener("click", () => {
-  if (!window.confirm("清空本次训练的完成状态和现场记录？")) return;
+  if (!window.confirm("清空本次训练的完成状态和动作记录？")) return;
   state = emptyState();
   saveDraft();
   renderExercises();
@@ -574,35 +482,7 @@ document.querySelector("#reset-training").addEventListener("click", () => {
 document.querySelectorAll("[data-open-view]").forEach((button) => {
   button.addEventListener("click", () => setView(button.dataset.openView));
 });
-async function handleWatchImage(input) {
-  const file = input.files?.[0];
-  if (file) await scanWatch(file);
-  input.value = "";
-}
 
-document.querySelector("#select-watch-image").addEventListener("click", () => watchImageLibrary.click());
-document.querySelector("#capture-watch-image").addEventListener("click", () => watchImageCamera.click());
-watchImageLibrary.addEventListener("change", () => handleWatchImage(watchImageLibrary));
-watchImageCamera.addEventListener("change", () => handleWatchImage(watchImageCamera));
-document.querySelectorAll("[data-watch]").forEach((input) => {
-  input.addEventListener("input", () => {
-    state.watch[input.dataset.watch] = input.value;
-    if (state.watch.source !== "ocr") state.watch.source = "manual";
-    saveDraft();
-  });
-});
-document.querySelector("#energy").addEventListener("change", (event) => {
-  state.energy = event.target.value;
-  saveDraft();
-});
-document.querySelector("#body-feedback").addEventListener("change", (event) => {
-  state.bodyFeedback = event.target.value;
-  saveDraft();
-});
-document.querySelector("#notes").addEventListener("input", (event) => {
-  state.notes = event.target.value;
-  saveDraft();
-});
 document.querySelector("#save-session").addEventListener("click", saveSession);
 document.querySelector("#sign-out").addEventListener("click", () => {
   sessionToken = "";
