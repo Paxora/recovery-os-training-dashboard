@@ -440,7 +440,8 @@ async function initializeAuth() {
   consumeLoginFragment();
   if (!API_BASE) {
     showAuth("云端服务尚未发布", "GitHub 登录和历史记录服务正在配置中。");
-    loginButton.disabled = true;
+    loginButton.removeAttribute("href");
+    loginButton.setAttribute("aria-disabled", "true");
     return;
   }
   if (!sessionToken) {
@@ -465,10 +466,6 @@ async function initializeAuth() {
   }
 }
 
-loginButton.addEventListener("click", () => {
-  if (!API_BASE) return;
-  location.href = `${API_BASE}/auth/github`;
-});
 document.querySelector("#open-history").addEventListener("click", async () => {
   setView("history");
   await loadHistory();
