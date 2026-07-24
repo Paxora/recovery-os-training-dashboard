@@ -3,180 +3,172 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f3f4f7" />
+    <meta name="theme-color" content="#f3f5f8" />
+    <meta name="description" content="Recovery OS 手机优先训练执行与记录 Dashboard" />
+    <meta property="og:title" content="Recovery OS · Training Dashboard" />
+    <meta property="og:description" content="训练现场执行、逐组记录与历史回看。" />
+    <meta property="og:image" content="./recovery-os-training-dashboard-og.png" />
     <title>Recovery OS · Training Dashboard</title>
-    <style>
-      :root {
-        color-scheme: light;
-        --blue: #2f6ff6;
-        --ink: #11141b;
-        --muted: #687080;
-        --line: #dfe2e8;
-        --surface: #ffffff;
-        --background: #f3f4f7;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        min-height: 100%;
-        margin: 0;
-      }
-
-      body {
-        background:
-          radial-gradient(circle at 85% 8%, rgba(47, 111, 246, 0.1), transparent 30%),
-          var(--background);
-        color: var(--ink);
-        font-family:
-          -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC",
-          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      }
-
-      main {
-        width: min(100%, 720px);
-        min-height: 100vh;
-        margin: 0 auto;
-        padding:
-          max(56px, env(safe-area-inset-top))
-          24px
-          max(40px, env(safe-area-inset-bottom));
-        display: flex;
-        flex-direction: column;
-      }
-
-      .eyebrow {
-        margin: 0 0 18px;
-        color: var(--blue);
-        font-size: 15px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-
-      h1 {
-        max-width: 640px;
-        margin: 0;
-        font-size: clamp(48px, 12vw, 86px);
-        line-height: 0.98;
-        letter-spacing: -0.065em;
-      }
-
-      .subtitle {
-        max-width: 540px;
-        margin: 24px 0 0;
-        color: var(--muted);
-        font-size: 18px;
-        line-height: 1.65;
-      }
-
-      .card {
-        margin-top: 52px;
-        padding: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.7);
-        border-radius: 32px;
-        background: rgba(255, 255, 255, 0.92);
-        box-shadow: 0 20px 60px rgba(35, 43, 60, 0.08);
-      }
-
-      .number {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: #f4f5f8;
-        color: var(--muted);
-        text-align: center;
-        font-size: 18px;
-        font-weight: 800;
-      }
-
-      .card h2 {
-        margin: 30px 0 10px;
-        font-size: 30px;
-        letter-spacing: -0.04em;
-      }
-
-      .card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.65;
-      }
-
-      .primary {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        margin-top: 24px;
-        padding: 19px 22px;
-        border-radius: 999px;
-        background: var(--ink);
-        color: white;
-        text-decoration: none;
-        font-size: 17px;
-        font-weight: 750;
-      }
-
-      .primary span:last-child {
-        color: #a9c3ff;
-        font-size: 22px;
-      }
-
-      footer {
-        margin-top: auto;
-        padding-top: 36px;
-        color: #9298a4;
-        font-size: 13px;
-      }
-
-      @media (max-width: 520px) {
-        main {
-          padding-left: 20px;
-          padding-right: 20px;
-        }
-
-        .card {
-          margin-top: 40px;
-          padding: 20px;
-          border-radius: 26px;
-        }
-
-        .card h2 {
-          font-size: 27px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <main>
-      <header>
+    <main class="auth-shell" id="auth-shell">
+      <section class="auth-card">
         <p class="eyebrow">RECOVERY OS</p>
-        <h1>训练 Dashboard</h1>
-        <p class="subtitle">
-          这是 Recovery OS Training Dashboard 的固定入口。训练现场执行、逐组记录和历史回看都在云端版完成。
-        </p>
-      </header>
-
-      <section class="card" aria-labelledby="entry-title">
-        <div class="number">01</div>
-        <h2 id="entry-title">登录云端训练看板</h2>
-        <p>使用 ChatGPT 账号登录。训练数据会按账号隔离，并保存至云端历史记录。</p>
-
-        <a
-          class="primary"
-          href="https://recovery-os-training-dashboard.panaker.chatgpt.site/signin-with-chatgpt?return_to=%2F"
-          rel="noopener"
-        >
-          <span>使用 ChatGPT 登录</span>
+        <h1 id="auth-title">登录训练 Dashboard</h1>
+        <p id="auth-copy">使用你的 GitHub 账号登录。训练记录会按账号隔离并保存到云端历史。</p>
+        <button class="auth-button" id="github-login" type="button">
+          <span>使用 GitHub 登录</span>
           <span aria-hidden="true">↗</span>
-        </a>
+        </button>
+        <p class="auth-status" id="auth-status" role="status"></p>
+      </section>
+    </main>
+
+    <main class="app-shell" id="app-shell" hidden>
+      <section data-view="workout">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">TODAY'S WORKOUT</p>
+            <h1>今日训练卡</h1>
+            <p class="signed-in-label" id="signed-in-label"></p>
+          </div>
+          <button class="outline-button" id="open-history" type="button">历史</button>
+        </header>
+
+        <section class="progress-card" aria-label="训练进度">
+          <div>
+            <span>今日训练 · Session 02</span>
+            <strong id="progress-count">0 / 7</strong>
+          </div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+        </section>
+
+        <div class="exercise-list" id="exercise-list"></div>
+
+        <aside class="safety-strip">
+          <strong>!</strong>
+          <span>胸痛、胸闷、头晕或异常气短，立即停止训练。</span>
+        </aside>
+
+        <div class="sticky-actions">
+          <button class="secondary-button" id="reset-training" type="button">重置本次</button>
+          <button class="primary-button" id="finish-training" type="button">结束并记录</button>
+        </div>
       </section>
 
-      <footer>Recovery OS · Private training workspace</footer>
+      <section data-view="record" hidden>
+        <header class="page-header record-header">
+          <div>
+            <button class="back-button" data-open-view="workout" type="button">← 返回训练卡</button>
+            <p class="eyebrow">WORKOUT RECORD</p>
+            <h1>训练记录</h1>
+          </div>
+        </header>
+
+        <section class="scan-card">
+          <input
+            class="visually-hidden"
+            id="watch-image"
+            type="file"
+            accept="image/*"
+            capture="environment"
+          />
+          <button class="scan-button" id="scan-watch" type="button">
+            <span class="camera-icon">◉</span>
+            <strong>扫描 Apple Watch 记录</strong>
+            <small>拍摄手表或选择训练总结截图</small>
+          </button>
+          <span class="local-badge">● 本地识别 · 免费</span>
+          <p class="scan-status" id="scan-status" role="status"></p>
+        </section>
+
+        <section class="record-card">
+          <div class="record-card-title">
+            <div>
+              <p class="eyebrow">APPLE WATCH</p>
+              <h2>识别结果</h2>
+            </div>
+            <img id="scan-preview" alt="待确认的 Apple Watch 记录" hidden />
+          </div>
+          <div class="watch-fields">
+            <label>
+              <span>训练时长</span>
+              <div><input data-watch="duration" placeholder="—" /><small>时:分:秒</small></div>
+            </label>
+            <label>
+              <span>活动热量</span>
+              <div><input data-watch="activeCalories" inputmode="numeric" placeholder="—" /><small>千卡</small></div>
+            </label>
+            <label>
+              <span>总热量</span>
+              <div><input data-watch="totalCalories" inputmode="numeric" placeholder="—" /><small>千卡</small></div>
+            </label>
+            <label>
+              <span>平均心率</span>
+              <div><input data-watch="averageHeartRate" inputmode="numeric" placeholder="—" /><small>次/分</small></div>
+            </label>
+          </div>
+          <p class="confirm-note">识别结果可以修改；确认无误后再保存。</p>
+        </section>
+
+        <section class="record-card">
+          <p class="eyebrow">POST-WORKOUT</p>
+          <h2>现场反馈</h2>
+          <div class="feedback-fields">
+            <label>
+              <span>Energy</span>
+              <select id="energy">
+                <option value="">未记录</option>
+                <option value="1">1 / 5 · 极低</option>
+                <option value="2">2 / 5 · 较低</option>
+                <option value="3">3 / 5 · 一般</option>
+                <option value="4">4 / 5 · 较好</option>
+                <option value="5">5 / 5 · 很好</option>
+              </select>
+            </label>
+            <label>
+              <span>身体反馈</span>
+              <select id="body-feedback">
+                <option value="">未记录</option>
+                <option>无异常</option>
+                <option>轻微酸痛，不影响活动</option>
+                <option>明显酸痛或疲劳</option>
+                <option>出现胸闷、头晕或异常气短</option>
+              </select>
+            </label>
+            <label>
+              <span>备注</span>
+              <textarea id="notes" maxlength="500" rows="4" placeholder="只记录本次训练现场事实。"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <p class="save-status" id="save-status" role="status"></p>
+        <button class="primary-button full" id="save-session" type="button">确认并保存</button>
+      </section>
+
+      <section data-view="history" hidden>
+        <header class="page-header history-header">
+          <div>
+            <button class="back-button" data-open-view="workout" type="button">← 今日训练</button>
+            <p class="eyebrow">TRAINING HISTORY</p>
+            <h1>训练历史</h1>
+          </div>
+          <button class="outline-button" id="sign-out" type="button">退出</button>
+        </header>
+
+        <section class="history-summary">
+          <span>已保存训练</span>
+          <strong id="history-count">0 次</strong>
+        </section>
+        <div class="empty-state" id="history-status">正在读取训练历史…</div>
+        <div class="history-list" id="history-list"></div>
+      </section>
     </main>
+
+    <script src="./config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>
