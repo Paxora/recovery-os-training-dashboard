@@ -101,7 +101,8 @@ const progressBar = document.querySelector("#progress-bar");
 const historyList = document.querySelector("#history-list");
 const historyStatus = document.querySelector("#history-status");
 const historyCount = document.querySelector("#history-count");
-const watchImage = document.querySelector("#watch-image");
+const watchImageLibrary = document.querySelector("#watch-image-library");
+const watchImageCamera = document.querySelector("#watch-image-camera");
 const scanStatus = document.querySelector("#scan-status");
 const scanPreview = document.querySelector("#scan-preview");
 const saveStatus = document.querySelector("#save-status");
@@ -573,12 +574,16 @@ document.querySelector("#reset-training").addEventListener("click", () => {
 document.querySelectorAll("[data-open-view]").forEach((button) => {
   button.addEventListener("click", () => setView(button.dataset.openView));
 });
-document.querySelector("#scan-watch").addEventListener("click", () => watchImage.click());
-watchImage.addEventListener("change", async () => {
-  const file = watchImage.files?.[0];
+async function handleWatchImage(input) {
+  const file = input.files?.[0];
   if (file) await scanWatch(file);
-  watchImage.value = "";
-});
+  input.value = "";
+}
+
+document.querySelector("#select-watch-image").addEventListener("click", () => watchImageLibrary.click());
+document.querySelector("#capture-watch-image").addEventListener("click", () => watchImageCamera.click());
+watchImageLibrary.addEventListener("change", () => handleWatchImage(watchImageLibrary));
+watchImageCamera.addEventListener("change", () => handleWatchImage(watchImageCamera));
 document.querySelectorAll("[data-watch]").forEach((input) => {
   input.addEventListener("input", () => {
     state.watch[input.dataset.watch] = input.value;
