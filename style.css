@@ -14,6 +14,10 @@
   --red-soft: #fff0f1;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 * {
   box-sizing: border-box;
 }
