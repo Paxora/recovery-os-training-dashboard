@@ -9,7 +9,7 @@
     <meta property="og:description" content="训练现场执行、逐组记录与历史回看。" />
     <meta property="og:image" content="./recovery-os-training-dashboard-og.png" />
     <title>Recovery OS · Training Dashboard</title>
-    <link rel="stylesheet" href="./style.css?v=20260725-1" />
+    <link rel="stylesheet" href="./style.css?v=20260725-2" />
   </head>
   <body>
     <main class="auth-shell" id="auth-shell">
@@ -69,15 +69,24 @@
         <section class="scan-card">
           <input
             class="visually-hidden"
-            id="watch-image"
+            id="watch-image-library"
+            type="file"
+            accept="image/*"
+          />
+          <input
+            class="visually-hidden"
+            id="watch-image-camera"
             type="file"
             accept="image/*"
             capture="environment"
           />
-          <button class="scan-button" id="scan-watch" type="button">
+          <button class="scan-button" id="select-watch-image" type="button">
             <span class="camera-icon">◉</span>
-            <strong>扫描 Apple Watch 记录</strong>
-            <small>拍摄手表或选择训练总结截图</small>
+            <strong>选择 Apple Watch 截图</strong>
+            <small>从手机照片图库选择训练总结</small>
+          </button>
+          <button class="capture-button" id="capture-watch-image" type="button">
+            直接拍摄 Apple Watch
           </button>
           <span class="local-badge">● 本地识别 · 免费</span>
           <p class="scan-status" id="scan-status" role="status"></p>
@@ -167,8 +176,8 @@
       </section>
     </main>
 
-    <script src="./config.js?v=20260725-1"></script>
+    <script src="./config.js?v=20260725-2"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script>
-    <script src="./app.js?v=20260725-1"></script>
+    <script src="./app.js?v=20260725-2"></script>
   </body>
 </html>
