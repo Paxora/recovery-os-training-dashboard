@@ -71,6 +71,15 @@
       "cue": "仅在腿部无明显酸痛时做；膝盖与脚尖同向。",
       "setCount": 2,
       "optional": true
+    },
+    {
+      "id": "cooldown_walk",
+      "order": "07",
+      "name": "跑步机快走",
+      "english": "Treadmill",
+      "prescription": "8–15 分钟",
+      "rest": "—",
+      "cue": "低强度收尾，降低训练后兴奋。"
     }
   ]
 }
