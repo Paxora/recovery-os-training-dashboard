@@ -1,55 +1,55 @@
 {
   "schemaVersion": 1,
-  "planId": "recovery-os-session-02",
-  "sessionLabel": "第 2 次入馆",
-  "updatedAt": "2026-07-25",
+  "planId": "recovery-os-session-03",
+  "sessionLabel": "第 3 次入馆",
+  "updatedAt": "2026-07-29",
   "exercises": [
     {
       "id": "warmup",
       "order": "01",
-      "name": "跑步机快走",
-      "english": "Treadmill",
-      "prescription": "8–10 分钟",
+      "name": "有氧热身",
+      "english": "Cardio Warm-up",
+      "prescription": "5–8 分钟",
       "rest": "—",
-      "cue": "身体微热即可，不需要跑。",
+      "cue": "优先跑步机快走；被占时改用椭圆机、动感单车或动态热身，不跳过热身。",
       "metrics": [
         { "key": "duration", "label": "实际时长", "unit": "分钟" },
         { "key": "distance", "label": "实际距离", "unit": "km" }
       ]
     },
     {
-      "id": "row",
-      "order": "02",
-      "name": "坐姿器械划船",
-      "english": "Seated Row",
-      "prescription": "2–3 × 10–12",
-      "rest": "90 秒",
-      "cue": "胸口打开，肘向后拉，不耸肩。",
-      "setCount": 3,
-      "isNew": true,
-      "video": "https://www.bilibili.com/video/BV1m2421L7tw/"
-    },
-    {
       "id": "shoulder",
-      "order": "03",
+      "order": "02",
       "name": "坐姿推肩机",
       "english": "Shoulder Press",
       "prescription": "2 × 10–12",
       "rest": "90 秒",
-      "cue": "背贴靠垫，不塌腰，手肘不锁死。",
+      "cue": "本次重点动作：背贴靠垫，不塌腰，手肘不锁死；动作变形或明显借力时立即结束该组。",
       "setCount": 2,
       "isNew": true,
       "video": "https://www.bilibili.com/video/BV1r341127uy/"
     },
     {
       "id": "pulldown",
-      "order": "04",
+      "order": "03",
       "name": "高位下拉",
       "english": "Lat Pulldown",
       "prescription": "2 × 10–12",
       "rest": "90 秒",
-      "cue": "拉到上胸，身体不要大幅后仰。",
+      "cue": "拉到上胸，身体不要大幅后仰；动作质量优先，不主动增加重量。",
       "setCount": 2
+    },
+    {
+      "id": "row",
+      "order": "04",
+      "name": "坐姿器械划船",
+      "english": "Seated Row",
+      "prescription": "2–3 × 10–12",
+      "rest": "90 秒",
+      "cue": "胸口打开，肘向后拉，不耸肩；先确认动作示范，再开始正式组。",
+      "setCount": 3,
+      "isNew": true,
+      "video": "https://www.bilibili.com/video/BV1m2421L7tw/"
     },
     {
       "id": "chest",
@@ -58,7 +58,7 @@
       "english": "Chest Press",
       "prescription": "2 × 10–12",
       "rest": "90 秒",
-      "cue": "肩膀向后下沉，回程保持控制。",
+      "cue": "肩膀向后下沉，回程保持控制；出现明显代偿时停止该组。",
       "setCount": 2
     },
     {
@@ -75,11 +75,11 @@
     {
       "id": "cooldown_walk",
       "order": "07",
-      "name": "跑步机快走",
-      "english": "Treadmill",
+      "name": "低强度有氧收尾",
+      "english": "Cardio Cool-down",
       "prescription": "8–15 分钟",
       "rest": "—",
-      "cue": "低强度收尾，降低训练后兴奋。"
+      "cue": "优先跑步机快走；被占时改用其他低强度有氧，尽量完成收尾。"
     }
   ]
 }
